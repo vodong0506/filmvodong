@@ -9,6 +9,7 @@ import Toast from "../components/Toast";
 import { useDispatch } from "react-redux";
 import { doLogin } from "../store/features/auth";
 import { doc, getDoc } from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [formLogin, setFormLogin] = useState({
@@ -69,7 +70,7 @@ const Login = () => {
         setLoadding(false);
         console.log("Đăng nhập thành công");
         navigate("/");
-      }, 2000);
+      }, 1500);
     } catch (error) {
       console.error("Lỗi đăng nhập:", error.message);
       setToast({ message: "Đăng nhập không thành công", type: "error" });
@@ -84,7 +85,13 @@ const Login = () => {
       <header className="sticky top-0 z-10 bg-transparent backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
-            <img className="w-28" src={logo} alt="Logo" />
+            <Link to="/">
+              <img
+                className="w-30 h-12 md:w-40 cursor-pointer"
+                src={logo}
+                alt="Logo"
+              />
+            </Link>
             <span className="hidden text-sm font-medium text-gray-300 sm:inline">
               Đăng nhập để tiếp tục hành trình giải trí
             </span>
@@ -109,7 +116,7 @@ const Login = () => {
             </p>
           </div>
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form className="space-y-2" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <label
                 className="text-sm font-medium text-gray-200"
@@ -123,7 +130,7 @@ const Login = () => {
                 value={formLogin.email}
                 onChange={handleChange}
                 placeholder="vd: name@example.com"
-                className="w-full rounded-xl bg-black/50 px-4 py-3 text-white placeholder-white/50 shadow-inner outline-none ring-2 ring-transparent transition focus:ring-red-500/60"
+                className="w-full rounded-xl bg-black/50 px-4 py-4 text-white placeholder-white/50 shadow-inner outline-none ring-2 ring-transparent transition focus:ring-red-500/60"
                 autoComplete="email"
                 spellCheck="false"
                 required
@@ -142,7 +149,7 @@ const Login = () => {
                 name="password"
                 value={formLogin.password}
                 onChange={handleChange}
-                className="w-full rounded-xl bg-black/50 px-4 py-3 text-white placeholder-white/50 shadow-inner outline-none ring-2 ring-transparent transition focus:ring-red-500/60"
+                className="w-full rounded-xl bg-black/50 px-4 py-4 text-white placeholder-white/50 shadow-inner outline-none ring-2 ring-transparent transition focus:ring-red-500/60"
                 autoComplete="current-password"
                 spellCheck="false"
                 required
@@ -167,7 +174,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className={`w-full cursor-pointer rounded-xl px-4 py-3 h-12 flex items-center justify-center text-lg font-semibold text-white transition focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-red-500 ${
+              className={`w-full shadow-red-500 duration-300 cursor-pointer rounded-xl px-4 py-3 h-12 flex items-center justify-center text-lg font-semibold text-white transition focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-red-500 ${
                 loadding
                   ? "bg-white hover:bg-white"
                   : "bg-red-600 hover:bg-red-700"

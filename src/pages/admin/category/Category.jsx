@@ -13,6 +13,7 @@ const Category = () => {
   const [categoryName, setCategoryName] = useState("");
   const [loadding, setLoadding] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [isUpdate, setIsUpdate] = useState(false);
   const {
     data: listCategory,
     isLoading: isLoadingCategory,
@@ -63,6 +64,7 @@ const Category = () => {
     if (!item) return;
 
     setCategoryName(item.name);
+    setIsUpdate(true);
     setIsModalOpen(true);
   };
 
@@ -73,7 +75,9 @@ const Category = () => {
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Quản lý thể loại</h2>
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              setIsModalOpen(true), setIsUpdate(false);
+            }}
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
           >
             <svg
@@ -117,7 +121,7 @@ const Category = () => {
                 {/* ⏳ ĐANG TẢI */}
                 {isLoadingCategory && (
                   <tr>
-                    <td colSpan={3} className="px-6 py-6 text-center">
+                    <td colSpan={4} className="px-6 py-6 text-center">
                       <img src={ico_loadding} className="w-6 mx-auto" />
                       <p className="mt-2 text-gray-400">Đang tải dữ liệu...</p>
                     </td>
@@ -188,7 +192,7 @@ const Category = () => {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
               <h2 className="text-lg font-semibold text-white">
-                {selectedId ? "Cập nhật thể loại" : "Thêm thể loại mới"}
+                {isUpdate ? "Cập nhật thể loại" : "Thêm thể loại mới"}
               </h2>
               <button
                 onClick={() => {

@@ -7,6 +7,7 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -36,5 +37,18 @@ export const deleteMovie = async (id) => {
   } catch (error) {
     console.error("Xóa thể loại thất bại:", error);
     throw error; // để component có thể bắt lỗi
+  }
+};
+
+export const updateMovie = async (id, data) => {
+  try {
+    const docRef = doc(db, "movie", id);
+    await updateDoc(docRef, {
+      ...data,
+      updatedAt: serverTimestamp(),
+    });
+  } catch (error) {
+    console.error("Cập nhật thể loại thất bại:", error);
+    throw error;
   }
 };

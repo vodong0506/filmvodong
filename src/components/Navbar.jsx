@@ -38,21 +38,22 @@ const Navbar = () => {
     dispatch(doLogout());
   };
 
-  console.log(user);
   return (
     <>
-      <section className="fixed top-0 w-full bg-black shadow shadow-gray-500 z-100 flex items-center justify-between px-20 py-2">
+      <section className="fixed top-0 w-full bg-black shadow shadow-gray-500 z-100 flex items-center justify-between px-5 lg:px-20 py-5">
         <div className="flex items-center gap-20">
-          <img className="w-30" src={logo} alt="logo" />
-          <ul className="text-white flex items-center gap-8">
-            <Link to={"/"}>
-              <li className="p-2 center_bar">Home</li>
-            </Link>
-            <li className="p-2 text-gray-400">Kids</li>
-            <li className="p-2 text-gray-400">Movies</li>
-            <li className="p-2 text-gray-400">New</li>
-            <li className="p-2 text-gray-400">My List</li>
-          </ul>
+          <img className="w-30 lg:w-40 h-12" src={logo} alt="logo" />
+          <div className="hidden lg:block">
+            <ul className="text-white flex items-center gap-8">
+              <Link to={"/"}>
+                <li className="p-2 center_bar">Home</li>
+              </Link>
+              <li className="p-2 text-gray-400">Kids</li>
+              <li className="p-2 text-gray-400">Movies</li>
+              <li className="p-2 text-gray-400">New</li>
+              <li className="p-2 text-gray-400">My List</li>
+            </ul>
+          </div>
         </div>
 
         <div className="flex items-center gap-8">
@@ -75,7 +76,7 @@ const Navbar = () => {
           ) : (
             <div className="relative" ref={dropdownRef}>
               <div
-                className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition duration-300"
+                className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition duration-300 py-2"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 <p className="text-white font-bold">

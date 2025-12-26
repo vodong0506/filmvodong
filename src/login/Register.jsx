@@ -10,6 +10,7 @@ import { doc, setDoc } from "firebase/firestore";
 import ico_eye from "../assets/ico_eye.png";
 import ico_loadding from "../assets/icon_loadding.gif";
 import Toast from "../components/Toast";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [formRegister, setFormRegister] = useState({
@@ -81,7 +82,13 @@ const Register = () => {
       <header className="sticky top-0 z-10 bg-transparent backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
-            <img className="w-28" src={logo} alt="Logo" />
+            <Link to="/">
+              <img
+                className="w-30 h-12 md:w-40 cursor-pointer"
+                src={logo}
+                alt="Logo"
+              />
+            </Link>
             <span className="hidden text-sm font-medium text-gray-300 sm:inline">
               Tạo tài khoản để bắt đầu hành trình giải trí
             </span>
@@ -106,7 +113,7 @@ const Register = () => {
             </p>
           </div>
 
-          <form className="space-y-3" onSubmit={handleSubmit}>
+          <form className="space-y-2" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <label
                 className="text-sm font-medium text-gray-200"
@@ -120,7 +127,7 @@ const Register = () => {
                 value={formRegister.name}
                 onChange={handleChange}
                 placeholder="vd: Nguyễn Văn A"
-                className="w-full rounded-xl bg-black/50 px-4 py-3 text-white placeholder-white/50 shadow-inner outline-none ring-2 ring-transparent transition focus:ring-red-500/60"
+                className="w-full rounded-xl bg-black/50 px-4 py-4 text-white placeholder-white/50 shadow-inner outline-none ring-2 ring-transparent transition focus:ring-red-500/60"
                 autoComplete="name"
                 spellCheck="false"
                 required
@@ -140,7 +147,7 @@ const Register = () => {
                 value={formRegister.email}
                 onChange={handleChange}
                 placeholder="vd: name@example.com"
-                className="w-full rounded-xl bg-black/50 px-4 py-3 text-white placeholder-white/50 shadow-inner outline-none ring-2 ring-transparent transition focus:ring-red-500/60"
+                className="w-full rounded-xl bg-black/50 px-4 py-4 text-white placeholder-white/50 shadow-inner outline-none ring-2 ring-transparent transition focus:ring-red-500/60"
                 autoComplete="email"
                 spellCheck="false"
                 required
@@ -159,7 +166,7 @@ const Register = () => {
                 name="password"
                 value={formRegister.password}
                 onChange={handleChange}
-                className="w-full rounded-xl bg-black/50 px-4 py-3 text-white placeholder-white/50 shadow-inner outline-none ring-2 ring-transparent transition focus:ring-red-500/60"
+                className="w-full rounded-xl bg-black/50 px-4 py-4 text-white placeholder-white/50 shadow-inner outline-none ring-2 ring-transparent transition focus:ring-red-500/60"
                 autoComplete="new-password"
                 required
               />
@@ -183,7 +190,7 @@ const Register = () => {
                 name="confirmPassword"
                 value={formRegister.confirmPassword}
                 onChange={handleChange}
-                className="w-full rounded-xl bg-black/50 px-4 py-3 text-white placeholder-white/50 shadow-inner outline-none ring-2 ring-transparent transition focus:ring-red-500/60"
+                className="w-full rounded-xl bg-black/50 px-4 py-4 text-white placeholder-white/50 shadow-inner outline-none ring-2 ring-transparent transition focus:ring-red-500/60"
                 autoComplete="new-password"
                 required
               />
@@ -192,7 +199,7 @@ const Register = () => {
             <button
               disabled={loadding}
               type="submit"
-              className={`w-full mt-10 h-12 cursor-pointer rounded-xl px-4 py-3 flex items-center justify-center text-lg font-semibold text-white transition focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-red-500 ${
+              className={`w-full mt-5 h-12 cursor-pointer rounded-xl px-4 py-3 flex items-center justify-center text-lg font-semibold text-white transition focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-red-500 ${
                 loadding
                   ? "bg-white hover:bg-white"
                   : "bg-red-600 hover:bg-red-700"
