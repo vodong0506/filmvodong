@@ -10,6 +10,8 @@ import LayoutAdmin from "./layout/layoutAdmin/LayoutAdmin";
 import Home from "./pages/account/home/Home";
 import Category from "./pages/admin/category/Category";
 import Movie from "./pages/admin/movie/Movie";
+import DetailMovie from "./detailMovie/DetailMovie";
+import WatchMovie from "./watchMovie/WatchMovie";
 
 function App() {
   return (
@@ -21,6 +23,22 @@ function App() {
           element={
             <LayoutAccount>
               <Home />
+            </LayoutAccount>
+          }
+        ></Route>
+        <Route
+          path="/movie/:slug"
+          element={
+            <LayoutAccount>
+              <DetailMovie />
+            </LayoutAccount>
+          }
+        ></Route>
+        <Route
+          path="/watch/:slug"
+          element={
+            <LayoutAccount>
+              <WatchMovie />
             </LayoutAccount>
           }
         ></Route>

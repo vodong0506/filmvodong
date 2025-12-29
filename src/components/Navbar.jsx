@@ -40,9 +40,11 @@ const Navbar = () => {
 
   return (
     <>
-      <section className="fixed top-0 w-full bg-black shadow shadow-gray-500 z-100 flex items-center justify-between px-5 lg:px-20 py-5">
+      <section className="fixed top-0 w-full bg-black/30 z-100 flex items-center justify-between px-5 lg:px-20 py-5">
         <div className="flex items-center gap-20">
-          <img className="w-30 lg:w-40 h-12" src={logo} alt="logo" />
+          <Link to={"/"}>
+            <img className="w-30 lg:w-40 h-12" src={logo} alt="logo" />
+          </Link>
           <div className="hidden lg:block">
             <ul className="text-white flex items-center gap-8">
               <Link to={"/"}>

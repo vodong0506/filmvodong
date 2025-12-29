@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   orderBy,
   query,
@@ -51,4 +52,17 @@ export const updateMovie = async (id, data) => {
     console.error("Cập nhật thể loại thất bại:", error);
     throw error;
   }
+};
+
+export const getMovieById = async (id) => {
+  if (!id) return null;
+
+  const ref = doc(db, "movie", id);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return null;
+
+  return {
+    id: snap.id,
+    ...snap.data(),
+  };
 };

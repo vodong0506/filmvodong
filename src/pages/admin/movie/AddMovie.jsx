@@ -263,6 +263,23 @@ const AddMovie = ({
                     Media
                   </h3>
 
+                  {/* Link main img */}
+                  <div>
+                    <label className="block mb-2 text-sm font-medium text-gray-200">
+                      Ảnh đại diện phim
+                    </label>
+                    <input
+                      name="image"
+                      value={movie.image}
+                      onChange={handleChange}
+                      placeholder="https://.."
+                      autoComplete="current-password"
+                      spellCheck="false"
+                      required
+                      className="w-full rounded-xl bg-gray-800/60 border border-gray-700/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 focus:bg-gray-800"
+                    />
+                  </div>
+
                   {/* Link video Google Drive */}
                   <div>
                     <label className="block mb-2 text-sm font-medium text-gray-200">
@@ -296,6 +313,21 @@ const AddMovie = ({
                       className="w-full rounded-xl bg-gray-800/60 border border-gray-700/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 focus:bg-gray-800"
                     />
                   </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <label className="block text-sm font-medium text-gray-200">
+                    Hot
+                  </label>
+                  <input
+                    type="checkbox"
+                    name="hot"
+                    checked={movie.hot || false}
+                    onChange={(e) =>
+                      setMovie({ ...movie, hot: e.target.checked })
+                    }
+                    className="w-4 h-4 cursor-pointer"
+                  />
                 </div>
 
                 {/* Section 5: Mô tả */}

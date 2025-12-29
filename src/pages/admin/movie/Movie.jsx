@@ -24,6 +24,8 @@ const Movie = () => {
     url: "",
     country: "",
     description: "",
+    hot: false,
+    image: "",
   };
 
   const { data } = useGetListCategory();
