@@ -26,6 +26,7 @@ const Movie = () => {
     description: "",
     hot: false,
     image: "",
+    year: "",
   };
 
   const { data } = useGetListCategory();

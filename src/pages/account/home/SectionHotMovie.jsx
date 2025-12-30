@@ -18,14 +18,6 @@ const SectionHotMovie = () => {
     return () => clearInterval(interval);
   }, [movies.length]);
 
-  const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + movies.length) % movies.length);
-  };
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % movies.length);
-  };
-
   const goToSlide = (index) => {
     setCurrentIndex(index);
   };
@@ -41,7 +33,7 @@ const SectionHotMovie = () => {
   const currentMovie = movies[currentIndex];
 
   return (
-    <section className="relative w-full h-[70vh] md:h-[80vh] lg:h-screen overflow-hidden">
+    <section className="relative w-full h-[50vh] lg:h-screen overflow-hidden">
       {/* Main Featured Movie - 2/3 screen */}
       <div className="relative w-full h-full">
         {/* Background Image */}
@@ -56,76 +48,96 @@ const SectionHotMovie = () => {
 
         {/* Content */}
         <div className="relative z-10 h-full flex items-center">
-          <div className="w-full md:w-2/3 px-17 lg:px-20">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-2xl animate-slide-in-left">
+          <div className="w-full md:w-3/4 ld::w-2/3 px-8 md:px-15 lg:px-20 mt-15 md:mt-10">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-2 md:mb-4 drop-shadow-2xl animate-slide-in-left">
               {currentMovie.name}
             </h1>
+            <p
+              className="text-yellow-500
+             text-xs font-light md:text-md mb-4 md:mb-6 line-clamp-3 max-w-2xl drop-shadow-lg animate-slide-in-right"
+            >
+              Hot nhất trong tháng
+            </p>
+            <div className="mb-6 flex flex-wrap gap-3 items-center">
+              <p className="px-2 py-1 md:px-4 md:py-2 border border-white bg-white text-black text-[8px] md:text-xs font-semibold w-fit rounded-2xl">
+                HD - Vietsub
+              </p>
+              <p className="px-2 py-1 md:px-4 md:py-2 bg-transparent border border-white text-white text-[7px] md:text-xs font-semibold w-fit rounded-2xl">
+                {currentMovie?.year}
+              </p>
+              <p className="px-2 py-1 md:px-4 md:py-2 bg-transparent border border-white text-white text-[7px] md:text-xs font-semibold w-fit rounded-2xl">
+                {currentMovie?.hour} giờ {currentMovie?.minute} phút
+              </p>
+              <p className="px-2 py-1 md:px-4 md:py-2 bg-transparent border border-white text-white text-[7px] md:text-xs font-semibold w-fit rounded-2xl">
+                {currentMovie?.categories}
+              </p>
+            </div>
             {currentMovie.description && (
-              <p className="text-white/90 text-lg md:text-xl mb-6 line-clamp-3 max-w-2xl drop-shadow-lg animate-slide-in-right">
-                {currentMovie.description}
+              <p className="hidden lg:block text-white/90 text-sm md:text-md mb-6 line-clamp-3 max-w-2xl drop-shadow-lg animate-slide-in-right">
+                {currentMovie.description.slice(0, 300) + "..."}
               </p>
             )}
 
             {/* Play Button */}
-            <button
-              onClick={() =>
-                navigate(
-                  `/movie/${toSlug(currentMovie.name)}?id=${currentMovie.id}`
-                )
-              }
-              className="group cursor-pointer flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-              </svg>
-              Phát ngay
-            </button>
+            <div className="flex items-center gap-5 lg:gap-10 mt-5">
+              <button
+                onClick={() =>
+                  navigate(
+                    `/watch/${toSlug(currentMovie.name)}?id=${currentMovie.id}`
+                  )
+                }
+                className="group cursor-pointer bg-red-600 hover:bg-red-700 text-white p-4 md:p-5 rounded-full transition-all duration-300 transform hover:scale-105 shadow-sm shadow-red-300 hover:shadow-md"
+              >
+                <svg
+                  className="w-5 h-5 lg:w-8 lg:h-8"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                </svg>
+              </button>
+              <div className="flex items-center bg-white/10 backdrop-blur-md rounded-full overflow-hidden border border-white/10">
+                {/* HEART */}
+                <button
+                  className="px-5 py-3 hover:bg-white/10 transition-all cursor-pointer"
+                  title="Yêu thích"
+                >
+                  <svg
+                    className="w-4 h-4 lg:w-7 lg:h-7 text-white"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 18.657 3.172 10.828a4 4 0 010-5.656z" />
+                  </svg>
+                </button>
+
+                {/* DIVIDER */}
+                <div className="w-px h-6 bg-white/20"></div>
+
+                {/* DETAIL */}
+                <button
+                  onClick={() =>
+                    navigate(
+                      `/movie/${toSlug(currentMovie.name)}?id=${
+                        currentMovie.id
+                      }`
+                    )
+                  }
+                  className="px-5 py-3 hover:bg-white/10 transition-all cursor-pointer"
+                  title="Chi tiết"
+                >
+                  <svg
+                    className="w-4 h-4 lg:w-7 lg:h-7 text-white"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9 9h2v6H9V9zm1-7a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* Navigation Arrows */}
-        {movies.length > 1 && (
-          <>
-            <button
-              onClick={goToPrevious}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110 group"
-              aria-label="Phim trước"
-            >
-              <svg
-                className="w-6 h-6 group-hover:scale-110 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={goToNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110 group"
-              aria-label="Phim tiếp theo"
-            >
-              <svg
-                className="w-6 h-6 group-hover:scale-110 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-          </>
-        )}
       </div>
 
       {/* Thumbnail Navigation - Bottom */}

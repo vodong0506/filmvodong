@@ -3,12 +3,13 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import useGetDetailMovie from "../hooks/useGetDetailMovie";
 import { Link } from "react-router-dom";
 import { toSlug } from "../libs/toSlug";
+import CommentVideo from "./CommentVideo";
 
 const DetailMovie = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
-  const [activeTab, setActiveTab] = useState("episodes");
+  const [activeTab, setActiveTab] = useState("comment");
 
   const { data: movie } = useGetDetailMovie(id);
 
@@ -30,7 +31,7 @@ const DetailMovie = () => {
           <div className="relative z-10 min-h-screen">
             {/* Breadcrumb Navigation */}
             <div className="pt-20 pb-8 px-4 md:px-8 lg:px-16">
-              <nav className="flex items-center gap-2 text-sm text-gray-300 mt-10">
+              <nav className="flex items-center gap-2 text-xs md:text-sm text-gray-300 mt-10">
                 <Link
                   to="/"
                   className="flex items-center gap-2 hover:text-white transition-colors"
@@ -236,12 +237,12 @@ const DetailMovie = () => {
                       <button
                         onClick={() => setActiveTab("episodes")}
                         className={`pb-4 px-2 font-semibold transition-colors ${
-                          activeTab === "episodes"
+                          activeTab === "comment"
                             ? "text-white border-b-2 border-white"
                             : "text-gray-400 hover:text-white"
                         }`}
                       >
-                        Tập phim
+                        Bình luận
                       </button>
                       <button
                         onClick={() => setActiveTab("suggestions")}
@@ -258,9 +259,9 @@ const DetailMovie = () => {
 
                   {/* Tab Content */}
                   <div className="min-h-50">
-                    {activeTab === "episodes" && (
-                      <div className="text-gray-300">
-                        <p>Danh sách tập phim sẽ được hiển thị ở đây...</p>
+                    {activeTab === "comment" && (
+                      <div>
+                        <CommentVideo movieId={id} movieName={movie?.name} />
                       </div>
                     )}
                     {activeTab === "suggestions" && (

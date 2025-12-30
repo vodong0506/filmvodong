@@ -7,17 +7,15 @@ const useGetComments = (movieId) => {
     () => getCommentsByMovieId(movieId),
     {
       revalidateOnFocus: false,
-      dedupingInterval: 60 * 1000,
+      dedupingInterval: 0, //  quan trọng
     }
   );
 
   return {
     data: data || [],
     isLoading,
-    refresh: mutate,
+    refresh: () => mutate(), // KHÔNG await
   };
 };
 
 export default useGetComments;
-
-

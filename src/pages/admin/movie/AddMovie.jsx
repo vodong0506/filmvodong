@@ -180,7 +180,24 @@ const AddMovie = ({
                     Thông tin khác
                   </h3>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Năm phát hành */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block mb-2 text-sm font-medium text-gray-200">
+                        Năm phát hành
+                      </label>
+                      <input
+                        name="year"
+                        value={movie.year}
+                        onChange={handleChange}
+                        placeholder="Nhập năm phát hành"
+                        autoComplete="current-password"
+                        spellCheck="false"
+                        required
+                        className="w-full rounded-xl bg-gray-800/60 border border-gray-700/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 focus:bg-gray-800"
+                      />
+                    </div>
+
                     {/* Quốc gia */}
                     <div>
                       <label className="block mb-2 text-sm font-medium text-gray-200">
@@ -253,6 +270,21 @@ const AddMovie = ({
                           className="w-full rounded-xl bg-gray-800/60 border border-gray-700/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 focus:bg-gray-800"
                         />
                       </div>
+
+                      <div className="flex items-center gap-3 mt-2">
+                        <label className="block text-sm font-medium text-gray-200">
+                          Hot
+                        </label>
+                        <input
+                          type="checkbox"
+                          name="hot"
+                          checked={movie.hot || false}
+                          onChange={(e) =>
+                            setMovie({ ...movie, hot: e.target.checked })
+                          }
+                          className="w-4 h-4 cursor-pointer"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -313,21 +345,6 @@ const AddMovie = ({
                       className="w-full rounded-xl bg-gray-800/60 border border-gray-700/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 focus:bg-gray-800"
                     />
                   </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <label className="block text-sm font-medium text-gray-200">
-                    Hot
-                  </label>
-                  <input
-                    type="checkbox"
-                    name="hot"
-                    checked={movie.hot || false}
-                    onChange={(e) =>
-                      setMovie({ ...movie, hot: e.target.checked })
-                    }
-                    className="w-4 h-4 cursor-pointer"
-                  />
                 </div>
 
                 {/* Section 5: Mô tả */}

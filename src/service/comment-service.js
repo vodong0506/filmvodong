@@ -3,9 +3,9 @@ import {
   collection,
   query,
   where,
-  orderBy,
   getDocs,
-  serverTimestamp,
+  doc,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -14,19 +14,14 @@ const commentRef = collection(db, "comments");
 export const createComment = async (data) => {
   return addDoc(commentRef, {
     ...data,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
+    createdAt: new Date(),
   });
 };
 
 export const getCommentsByMovieId = async (movieId) => {
   if (!movieId) return [];
 
-  const q = query(
-    commentRef,
-    where("movieId", "==", movieId),
-    orderBy("createdAt", "desc")
-  );
+  const q = query(commentRef, where("movieId", "==", movieId));
   const querySnapshot = await getDocs(q);
 
   return querySnapshot.docs.map((doc) => ({
@@ -35,4 +30,9 @@ export const getCommentsByMovieId = async (movieId) => {
   }));
 };
 
+export const deleteComment = async (movieId) => {
+  if (!movieId) return;
 
+  const commentDoc = doc(db, "comments", movieId);
+  return deleteDoc(commentDoc);
+};
