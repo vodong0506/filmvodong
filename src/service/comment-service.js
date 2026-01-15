@@ -36,3 +36,7 @@ export const deleteComment = async (movieId) => {
   const commentDoc = doc(db, "comments", movieId);
   return deleteDoc(commentDoc);
 };
+
+
+
+

@@ -114,19 +114,19 @@ const WatchMovie = () => {
           <div>
             <p className="font-semibold text-xl">{movie?.name}</p>
             <div className="mt-5">
-              <p className="px-4 py-2 bg-white text-black text-xs md:text-sm font-semibold w-fit rounded-2xl">
+              <p className="px-4 py-2 bg-white text-black text-xs md:text-xs font-semibold w-fit rounded-2xl">
                 HD - Vietsub
               </p>
-              <p className="px-4 py-2 bg-transparent border border-white text-xs md:text-sm font-semibold w-fit rounded-2xl mt-2">
+              <p className="px-4 py-2 bg-transparent border border-white text-xs md:text-xs font-semibold w-fit rounded-2xl mt-2">
                 {movie?.year}
               </p>
-              <p className="px-4 py-2 bg-transparent border border-white text-xs md:text-sm font-semibold w-fit rounded-2xl mt-2">
+              <p className="px-4 py-2 bg-transparent border border-white text-xs md:text-xs font-semibold w-fit rounded-2xl mt-2">
                 {movie?.hour} giờ {movie?.minute} phút
               </p>
-              <p className="px-4 py-2 bg-transparent border border-white text-xs md:text-sm font-semibold w-fit rounded-2xl mt-2">
+              <p className="px-4 py-2 bg-transparent border border-white text-xs md:text-xs font-semibold w-fit rounded-2xl mt-2">
                 {movie?.categories}
               </p>
-              <p className="px-4 py-2 bg-transparent border border-white text-xs md:text-sm font-semibold w-fit rounded-2xl mt-2">
+              <p className="px-4 py-2 bg-transparent border border-white text-xs md:text-xs font-semibold w-fit rounded-2xl mt-2">
                 {movie?.country}
               </p>
             </div>

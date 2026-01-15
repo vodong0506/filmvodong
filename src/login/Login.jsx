@@ -20,7 +20,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const [loadding, setLoadding] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [toast, setToast] = useState(null);
+  // const [toast, setToast] = useState(null);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormLogin((prev) => ({
@@ -65,7 +65,7 @@ const Login = () => {
         console.error("User không tồn tại trong Firestore");
       }
 
-      setToast({ message: "Đăng nhập thành công", type: "success" });
+      // setToast({ message: "Đăng nhập thành công", type: "success" });
       setTimeout(() => {
         setLoadding(false);
         console.log("Đăng nhập thành công");
@@ -73,7 +73,7 @@ const Login = () => {
       }, 1500);
     } catch (error) {
       console.error("Lỗi đăng nhập:", error.message);
-      setToast({ message: "Đăng nhập không thành công", type: "error" });
+      // setToast({ message: "Đăng nhập không thành công", type: "error" });
       setLoadding(false);
     }
   };
@@ -199,13 +199,13 @@ const Login = () => {
           </div>
         </div>
       </main>
-      {toast && (
+      {/* {toast && (
         <Toast
           message={toast.message}
           type={toast.type}
           onClose={() => setToast(null)}
         />
-      )}
+      )} */}
     </section>
   );
 };

@@ -33,7 +33,7 @@ const SectionHotMovie = () => {
   const currentMovie = movies[currentIndex];
 
   return (
-    <section className="relative w-full h-[50vh] lg:h-screen overflow-hidden">
+    <section className="relative w-full h-[50vh] lg:h-screen">
       {/* Main Featured Movie - 2/3 screen */}
       <div className="relative w-full h-full">
         {/* Background Image */}
@@ -56,7 +56,7 @@ const SectionHotMovie = () => {
               className="text-yellow-500
              text-xs font-light md:text-md mb-4 md:mb-6 line-clamp-3 max-w-2xl drop-shadow-lg animate-slide-in-right"
             >
-              Hot nhất trong tháng
+              Hot nhất
             </p>
             <div className="mb-6 flex flex-wrap gap-3 items-center">
               <p className="px-2 py-1 md:px-4 md:py-2 border border-white bg-white text-black text-[8px] md:text-xs font-semibold w-fit rounded-2xl">

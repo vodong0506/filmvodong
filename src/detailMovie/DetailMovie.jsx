@@ -1,279 +1,298 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useGetDetailMovie from "../hooks/useGetDetailMovie";
 import { Link } from "react-router-dom";
 import { toSlug } from "../libs/toSlug";
 import CommentVideo from "./CommentVideo";
+import useGetListMovie from "../hooks/useGetListMovie";
+import Footer from "../components/Footer";
 
 const DetailMovie = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
-  const [activeTab, setActiveTab] = useState("comment");
-
   const { data: movie } = useGetDetailMovie(id);
+  const { data: listMovie } = useGetListMovie();
+  const sameGenreMovies =
+    listMovie?.filter(
+      (mov) => mov?.categories === movie?.categories && mov.id !== movie?.id
+    ) || [];
+
+  const [activeTab, setActiveTab] = useState("suggestions");
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [id]);
 
   return (
     <>
-      <div className="relative w-full min-h-screen overflow-hidden text-white">
-        <div className="relative w-full">
-          {/* Background Image */}
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-in-out"
-            style={{ backgroundImage: `url(${movie?.poster})` }}
-          >
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-linear-to-r from-black/90 via-black/70 to-black/50"></div>
-            <div className="absolute inset-0 bg-black/20"></div>
-          </div>
+      <div
+        className="w-full h-screen relative bg-center bg-cover"
+        style={{ backgroundImage: `url(${movie?.poster})` }}
+      >
+        <div
+          className="absolute inset-0 bg-linear-to-r 
+            from-[rgb(13,13,12)] mask-l-from-30%
+            via-black/60 via-50% 
+            to-[rgb(13,13,12)] mask-r-from-30%"
+        ></div>
 
-          {/* Content Container */}
-          <div className="relative z-10 min-h-screen">
-            {/* Breadcrumb Navigation */}
-            <div className="pt-20 pb-8 px-4 md:px-8 lg:px-16">
-              <nav className="flex items-center gap-2 text-xs md:text-sm text-gray-300 mt-10">
-                <Link
-                  to="/"
-                  className="flex items-center gap-2 hover:text-white transition-colors"
+        <div className="relative z-10 bg-linear-to-t from-[rgb(13,13,12)] from-69% to-[rgb(13,13,12)]/10 w-full text-white px-30 pt-80 pb-30">
+          <div className="flex items-start gap-20 mt-80">
+            <div className="w-1/3">
+              <img className="w-50 rounded-2xl" src={movie?.image} alt="" />
+              <p className="mt-5 text-3xl font-semibold">{movie?.name}</p>
+              <div className="flex gap-3 items-start mt-5 flex-wrap">
+                <p className="px-4 py-2 bg-white text-black border border-white text-[10px] font-semibold w-fit rounded-2xl mt-2">
+                  HD - Full HD
+                </p>
+                <p className="px-4 py-2 bg-transparent border border-white text-[10px] font-semibold w-fit rounded-2xl mt-2">
+                  {movie?.year}
+                </p>
+                <p className="px-4 py-2 bg-transparent border border-white text-[10px] font-semibold w-fit rounded-2xl mt-2">
+                  {movie?.hour} giờ {movie?.minute} phút
+                </p>
+                <p className="px-4 py-2 bg-transparent border border-white text-[10px] font-semibold w-fit rounded-2xl mt-2">
+                  {movie?.categories}
+                </p>
+                <p className="px-4 py-2 bg-transparent border border-white text-[10px] font-semibold w-fit rounded-2xl mt-2">
+                  {movie?.country}
+                </p>
+              </div>
+
+              <div className="mt-5 p-3 rounded-2xl bg-orange-500/30 w-fit">
+                <p className="text-[12px]">Đang chiếu: Trailer</p>
+              </div>
+
+              <div>
+                <h3 className="text-xl mt-5">
+                  Giới thiệu phim - {movie?.name}
+                </h3>
+                <p className="mt-2 text-gray-500 text-sm">
+                  {movie?.description}
+                </p>
+              </div>
+
+              <div className="space-y-4 mb-8 text-gray-300 mt-5">
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold text-white text-sm">
+                    Thời lượng:
+                  </span>
+                  <span className="text-sm">
+                    {movie?.hour} giờ {movie?.minute} phút
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold text-white text-sm">
+                    Quốc gia:
+                  </span>
+                  <span className="text-sm">{movie?.country}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold text-white text-sm">
+                    Thể loại:
+                  </span>
+                  <span className="text-sm">{movie?.categories}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold text-white text-sm">
+                    Đạo diễn:
+                  </span>
+                  <span className="text-sm">{movie?.director}</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <p className="font-semibold text-white whitespace-nowrap">
+                    Diễn viên:
+                  </p>
+                  <span className="text-sm">{movie?.cast}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-2/3">
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={() =>
+                    navigate(`/watch/${toSlug(movie?.name)}?id=${movie?.id}`)
+                  }
+                  className="flex items-center gap-2 cursor-pointer bg-red-600 hover:bg-red-700 text-white text-xl font-semibold px-6 py-4 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   <svg
-                    className="w-5 h-5"
+                    className="w-6 h-6"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
-                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                    <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                   </svg>
-                  <span>FilmVoDong</span>
-                </Link>
-                <svg
-                  className="w-4 h-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="text-white font-medium">{movie?.name}</span>
-              </nav>
-            </div>
+                  <span>Xem Ngay</span>
+                </button>
 
-            {/* Main Content */}
-            <div className="px-4 md:px-8 lg:px-16 pb-16">
-              <div className="flex flex-col lg:flex-row gap-8 items-start">
-                {/* Movie Poster - Left Side */}
-                <div className="shrink-0 w-full lg:w-auto">
-                  <img
-                    className="w-48 md:w-56 lg:w-64 h-auto object-cover rounded-lg shadow-2xl"
-                    src={movie?.image}
-                    alt={movie?.name}
-                  />
-                  <div className="flex flex-wrap items-center gap-2 mt-6">
-                    {/* Watch Now Button */}
-                    <button
-                      onClick={() =>
-                        navigate(`/watch/${toSlug(movie.name)}?id=${movie.id}`)
-                      }
-                      className="flex items-center gap-2 cursor-pointer bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                <div className="flex items-center gap-4 ml-auto">
+                  {/* Favorite */}
+                  <button className="flex flex-col items-center gap-1 text-gray-300 hover:text-white transition-colors group">
+                    <svg
+                      className="w-6 h-6 group-hover:scale-110 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
                     >
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                      </svg>
-                      <span>Xem Ngay</span>
-                    </button>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
+                    </svg>
+                    <span className="text-xs">Yêu thích</span>
+                  </button>
 
-                    {/* Trailer Button */}
-                    <button className="flex items-center cursor-pointer gap-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold px-4 py-3 rounded-lg transition-all duration-300">
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                      </svg>
-                      <span>Trailer</span>
-                    </button>
-                  </div>
+                  {/* Add to */}
+                  <button className="flex flex-col items-center gap-1 text-gray-300 hover:text-white transition-colors group">
+                    <svg
+                      className="w-6 h-6 group-hover:scale-110 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 4v16m8-8H4"
+                      />
+                    </svg>
+                    <span className="text-xs">Thêm vào</span>
+                  </button>
+
+                  {/* Share */}
+                  <button className="flex flex-col items-center gap-1 text-gray-300 hover:text-white transition-colors group">
+                    <svg
+                      className="w-6 h-6 group-hover:scale-110 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                      />
+                    </svg>
+                    <span className="text-xs">Chia sẻ</span>
+                  </button>
+
+                  {/* Comment */}
+                  <button className="flex flex-col items-center gap-1 text-gray-300 hover:text-white transition-colors group">
+                    <svg
+                      className="w-6 h-6 group-hover:scale-110 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                      />
+                    </svg>
+                    <span className="text-xs">Bình luận</span>
+                  </button>
                 </div>
+              </div>
 
-                {/* Movie Info and Actions - Right Side */}
-                <div className="flex-1 w-full">
-                  {/* Movie Title */}
-                  <div className="flex flex-wrap items-center gap-4 mb-6">
-                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-                      {movie?.name}
-                    </h1>
-                    {/* Action Icons */}
-                    <div className="flex items-center gap-4 ml-auto">
-                      {/* Favorite */}
-                      <button className="flex flex-col items-center gap-1 text-gray-300 hover:text-white transition-colors group">
-                        <svg
-                          className="w-6 h-6 group-hover:scale-110 transition-transform"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                          />
-                        </svg>
-                        <span className="text-xs">Yêu thích</span>
-                      </button>
+              <div className="border-b border-gray-700 mt-15">
+                <nav className="flex gap-8">
+                  <button
+                    onClick={() => setActiveTab("suggestions")}
+                    className={`pb-4 px-2 font-semibold transition-colors text-sm cursor-pointer ${
+                      activeTab === "suggestions"
+                        ? "text-white border-b-2 border-white"
+                        : "text-gray-400 hover:text-white"
+                    }`}
+                  >
+                    Đề xuất
+                  </button>
 
-                      {/* Add to */}
-                      <button className="flex flex-col items-center gap-1 text-gray-300 hover:text-white transition-colors group">
-                        <svg
-                          className="w-6 h-6 group-hover:scale-110 transition-transform"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 4v16m8-8H4"
-                          />
-                        </svg>
-                        <span className="text-xs">Thêm vào</span>
-                      </button>
+                  <button
+                    onClick={() => setActiveTab("episodes")}
+                    className={`pb-4 px-2 font-semibold transition-colors text-sm cursor-pointer ${
+                      activeTab === "episodes"
+                        ? "text-white border-b-2 border-white"
+                        : "text-gray-400 hover:text-white"
+                    }`}
+                  >
+                    Tập phim
+                  </button>
+                </nav>
+              </div>
 
-                      {/* Share */}
-                      <button className="flex flex-col items-center gap-1 text-gray-300 hover:text-white transition-colors group">
-                        <svg
-                          className="w-6 h-6 group-hover:scale-110 transition-transform"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                          />
-                        </svg>
-                        <span className="text-xs">Chia sẻ</span>
-                      </button>
-
-                      {/* Comment */}
-                      <button className="flex flex-col items-center gap-1 text-gray-300 hover:text-white transition-colors group">
-                        <svg
-                          className="w-6 h-6 group-hover:scale-110 transition-transform"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                          />
-                        </svg>
-                        <span className="text-xs">Bình luận</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Movie Details */}
-                  <div className="space-y-4 mb-8 text-gray-300">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-white">
-                        Thời lượng:
-                      </span>
-                      <span>
-                        {movie?.hour} giờ {movie?.minute} phút
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-white">
-                        Quốc gia:
-                      </span>
-                      <span>{movie?.country}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-white">
-                        Thể loại:
-                      </span>
-                      <span>{movie?.categories}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-white">
-                        Đạo diễn:
-                      </span>
-                      <span>{movie?.director}</span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <p className="font-semibold text-white whitespace-nowrap">
-                        Diễn viên:
-                      </p>
-                      <span>{movie?.cast}</span>
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <div className="mb-8">
-                    <p className="font-semibold text-white mb-2">
-                      Nội dung phim:
-                    </p>
-                    <p className="text-gray-300 leading-relaxed">
-                      {movie?.description}
-                    </p>
-                  </div>
-
-                  {/* Navigation Tabs */}
-                  <div className="border-b border-gray-700 mb-6">
-                    <nav className="flex gap-8">
-                      <button
-                        onClick={() => setActiveTab("episodes")}
-                        className={`pb-4 px-2 font-semibold transition-colors ${
-                          activeTab === "comment"
-                            ? "text-white border-b-2 border-white"
-                            : "text-gray-400 hover:text-white"
-                        }`}
+              <div className="mt-10">
+                {activeTab === "episodes" && (
+                  <div>
+                    <div>
+                      <p className="font-semibold text-xl">Các bản chiếu</p>
+                      <div
+                        className="w-90 h-40 relative bg-center bg-cover mt-5 rounded-xl overflow-hidden"
+                        style={{ backgroundImage: `url(${movie?.poster})` }}
                       >
-                        Bình luận
-                      </button>
-                      <button
-                        onClick={() => setActiveTab("suggestions")}
-                        className={`pb-4 px-2 font-semibold transition-colors ${
-                          activeTab === "suggestions"
-                            ? "text-white border-b-2 border-white"
-                            : "text-gray-400 hover:text-white"
-                        }`}
+                        <div className="absolute inset-0 bg-linear-to-r from-gray-500 from-50% to-transparent"></div>
+                        <div className="relative p-5 flex flex-col justify-between h-full">
+                          <p className="text-sm font-semibold">
+                            {movie?.language}
+                          </p>
+                          <p className="text-sm font-semibold">Trailer</p>
+                          <button
+                            onClick={() =>
+                              navigate(
+                                `/watch/${toSlug(movie?.name)}?id=${movie?.id}`
+                              )
+                            }
+                            className="text-sm font-semibold w-fit bg-white rounded-2xl text-black px-4 py-2 cursor-pointer hover:scale-105 transition duration-300"
+                          >
+                            Xem bản này
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {activeTab === "suggestions" && (
+                  <ul className="mt-10 flex items-center gap-7 flex-wrap">
+                    {sameGenreMovies?.map((item) => (
+                      <li
+                        key={item?.id}
+                        onClick={() =>
+                          navigate(
+                            `/movie/${toSlug(item?.name)}?id=${item?.id}`
+                          )
+                        }
+                        className="relative w-fit group"
                       >
-                        Đề xuất
-                      </button>
-                    </nav>
-                  </div>
+                        <img
+                          className="w-40 rounded-2xl"
+                          src={item.image}
+                          alt=""
+                        />
+                        <p className="absolute bottom-2 left-1/3 p-2 rounded-md text-xs bg-green-700 font-bold">
+                          Trailer
+                        </p>
+                        <div className="absolute bg-transparent group-hover:bg-black/20 inset-0 transition duration-300 cursor-pointer"></div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
-                  {/* Tab Content */}
-                  <div className="min-h-50">
-                    {activeTab === "comment" && (
-                      <div>
-                        <CommentVideo movieId={id} movieName={movie?.name} />
-                      </div>
-                    )}
-                    {activeTab === "suggestions" && (
-                      <div className="text-gray-300">
-                        <p>Đề xuất phim tương tự sẽ được hiển thị ở đây...</p>
-                      </div>
-                    )}
-                  </div>
+                <div className="mt-15 border border-white/30 rounded-2xl px-7 py-7 bg-[rgb(14,14,12)]">
+                  <CommentVideo />
                 </div>
               </div>
             </div>
           </div>
+        </div>
+        <div className="inset-0">
+          <Footer />
         </div>
       </div>
     </>

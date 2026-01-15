@@ -44,7 +44,7 @@ const Movie = () => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || 1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   useEffect(() => {
     handleGetList(); // gọi API để lấy tất cả movies

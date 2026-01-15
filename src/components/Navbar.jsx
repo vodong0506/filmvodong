@@ -14,7 +14,9 @@ import Toast from "./Toast";
 const Navbar = () => {
   const user = useSelector((state) => state.authen.user);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [toast, setToast] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // const [toast, setToast] = useState(null);
   const dropdownRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -32,15 +34,28 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleLogout = () => {
     setIsDropdownOpen(false);
-    setToast({ message: "Đăng xuất thành công", type: "success" });
+    // setToast({ message: "Đăng xuất thành công", type: "success" });
     dispatch(doLogout());
   };
 
   return (
     <>
-      <section className="fixed top-0 w-full bg-black/30 z-100 flex items-center justify-between px-5 lg:px-20 py-5">
+      <section
+        className={`fixed top-0 w-full z-100 flex items-center justify-between px-5 lg:px-20 py-5 transition-all duration-300 ${
+          isScrolled ? "bg-black shadow-red-500 shadow-xs" : "bg-transparent"
+        }`}
+      >
         <div className="flex items-center gap-20">
           <Link to={"/"}>
             <img className="w-30 lg:w-40 h-12" src={logo} alt="logo" />
@@ -141,13 +156,13 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        {toast && (
+        {/* {toast && (
           <Toast
             message={toast.message}
             type={toast.type}
             onClose={() => setToast(null)}
           />
-        )}
+        )} */}
       </section>
     </>
   );
