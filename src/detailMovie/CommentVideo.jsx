@@ -156,7 +156,7 @@ const CommentVideo = ({ movieId, movieName }) => {
         )}
 
         {/* Comment Form */}
-        <div className="bg-[rgb(15,15,13)] rounded-lg p-6 border border-gray-700">
+        <div className="bg-[rgb(15,15,13)]">
           <form onSubmit={handleSubmitComment}>
             <textarea
               value={commentText}

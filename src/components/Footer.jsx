@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../assets/logo.png";
 
 const Footer = () => {
   return (
@@ -9,15 +10,10 @@ const Footer = () => {
         {/* LOGO + COMPANY */}
         <div className="col-span-2">
           <p className="text-white font-semibold mb-4">
-            Công ty Cổ phần Võ Đông kết hợp với
+            Công ty Cổ phần Võ Đông
           </p>
 
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold">
-              ▶
-            </div>
-            <span className="text-2xl font-bold text-orange-500">FPT Play</span>
-          </div>
+          <img className="w-30 lg:w-40 h-12" src={logo} alt="logo" />
 
           <div className="flex gap-4 mt-4">
             <div className="border border-gray-600 px-3 py-1 text-xs rounded">
@@ -31,7 +27,7 @@ const Footer = () => {
 
         {/* ABOUT */}
         <div>
-          <h4 className="text-white font-semibold mb-4">Về FPT Play</h4>
+          <h4 className="text-white font-semibold mb-4">Về VoDong</h4>
           <ul className="space-y-2 text-sm">
             <li>Giới thiệu</li>
             <li>Các gói dịch vụ</li>
@@ -66,8 +62,8 @@ const Footer = () => {
           <h4 className="text-white font-semibold mb-4">Thông tin</h4>
           <ul className="space-y-2 text-sm">
             <li>Liên hệ</li>
-            <li>Hotline: 19006600</li>
-            <li>Email: hotrofptplay@fpt.com</li>
+            <li>Hotline: 0345370754</li>
+            <li>Email: vodong@gmail.com</li>
           </ul>
 
           <div className="flex gap-4 mt-4 text-white">
@@ -83,19 +79,10 @@ const Footer = () => {
       {/* BOTTOM */}
       <div className="max-w-7xl mx-auto px-10 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
         <div className="md:col-span-2 space-y-1">
-          <p>Người đại diện: Ông Hoàng Việt Anh</p>
-          <p>
-            Trụ sở: Tầng 8, tòa nhà FPT Tower, số 10 Phạm Văn Bạch, Cầu Giấy, Hà
-            Nội
-          </p>
-          <p>
-            Giấy chứng nhận đăng ký kinh doanh số 0101778163 do Sở Kế Hoạch &
-            Đầu Tư TP Hà Nội cấp ngày 28/07/2005
-          </p>
-          <p>
-            Giấy phép cung cấp dịch vụ Phát thanh, Truyền hình trên mạng
-            Internet số 377/GP-BTTTT cấp ngày 10/10/2023
-          </p>
+          <p>Người đại diện: Ông Võ Thành Đông</p>
+          <p>Trụ sở: Bí mật</p>
+          <p>Có chứng nhận kinh doanh</p>
+          <p>Giấy phép cung cấp dịch vụ mua bán</p>
         </div>
 
         {/* APP */}

@@ -142,3 +142,10 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: white !important;
   transition: background-color 3000s ease-in-out 0s;
 }
+
+.font-name-movie {
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}

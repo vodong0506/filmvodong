@@ -24,18 +24,24 @@ const SectionHotMovie = () => {
 
   if (isLoading || movies.length === 0) {
     return (
-      <section className="w-full h-screen flex items-center justify-center bg-gray-900">
-        <div className="text-white text-xl">Đang tải...</div>
+      <section className="w-full h-screen flex items-center justify-center bg-[rgb(13,13,12)]">
+        <div className="text-white text-7xl font-bold">VoDong...</div>
       </section>
     );
   }
 
   const currentMovie = movies[currentIndex];
 
+  const handleBackgroundClick = () => {
+    if (window.innerWidth < 1024) {
+      navigate(`/movie/${toSlug(currentMovie.name)}?id=${currentMovie.id}`);
+    }
+  };
+
   return (
-    <section className="relative w-full h-[50vh] lg:h-screen">
+    <section className="relative w-full h-[40vh] lg:h-screen">
       {/* Main Featured Movie - 2/3 screen */}
-      <div className="relative w-full h-full">
+      <div onClick={handleBackgroundClick} className="relative w-full h-full">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-in-out animate-fade-in"
@@ -48,8 +54,8 @@ const SectionHotMovie = () => {
 
         {/* Content */}
         <div className="relative z-10 h-full flex items-center">
-          <div className="w-full md:w-3/4 ld::w-2/3 px-8 md:px-15 lg:px-20 mt-15 md:mt-10">
-            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-2 md:mb-4 drop-shadow-2xl animate-slide-in-left">
+          <div className="w-full lg:w-2/3 px-8 md:px-15 lg:px-20 mt-20 min-[390px]:mt-35 min-[430px]:mt-43 md:mt-35 flex flex-col justify-center items-center lg:block">
+            <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white mb-2 md:mb-4 drop-shadow-2xl animate-slide-in-left font-name-movie">
               {currentMovie.name}
             </h1>
             <p
@@ -59,16 +65,16 @@ const SectionHotMovie = () => {
               Hot nhất
             </p>
             <div className="mb-6 flex flex-wrap gap-3 items-center">
-              <p className="px-2 py-1 md:px-4 md:py-2 border border-white bg-white text-black text-[8px] md:text-xs font-semibold w-fit rounded-2xl">
+              <p className="px-2 py-1 md:px-4 md:py-2 border border-white/50 bg-white text-black text-[8px] md:text-[10px] lg:text-xs md:font-semibold w-fit rounded-2xl">
                 HD - Vietsub
               </p>
-              <p className="px-2 py-1 md:px-4 md:py-2 bg-transparent border border-white text-white text-[7px] md:text-xs font-semibold w-fit rounded-2xl">
+              <p className="px-2 py-1 md:px-4 md:py-2 bg-transparent border border-white/50 text-white text-[7px] md:text-[10px] lg:text-xs md:font-semibold w-fit rounded-2xl">
                 {currentMovie?.year}
               </p>
-              <p className="px-2 py-1 md:px-4 md:py-2 bg-transparent border border-white text-white text-[7px] md:text-xs font-semibold w-fit rounded-2xl">
+              <p className="px-2 py-1 md:px-4 md:py-2 bg-transparent border border-white/50 text-white text-[7px] md:text-[10px] lg:text-xs md:font-semibold w-fit rounded-2xl">
                 {currentMovie?.hour} giờ {currentMovie?.minute} phút
               </p>
-              <p className="px-2 py-1 md:px-4 md:py-2 bg-transparent border border-white text-white text-[7px] md:text-xs font-semibold w-fit rounded-2xl">
+              <p className="px-2 py-1 md:px-4 md:py-2 bg-transparent border border-white/50 text-white text-[7px] md:text-[10px] lg:text-xs md:font-semibold w-fit rounded-2xl">
                 {currentMovie?.categories}
               </p>
             </div>
@@ -83,10 +89,10 @@ const SectionHotMovie = () => {
               <button
                 onClick={() =>
                   navigate(
-                    `/watch/${toSlug(currentMovie.name)}?id=${currentMovie.id}`
+                    `/watch/${toSlug(currentMovie.name)}?id=${currentMovie.id}`,
                   )
                 }
-                className="group cursor-pointer bg-red-600 hover:bg-red-700 text-white p-4 md:p-5 rounded-full transition-all duration-300 transform hover:scale-105 shadow-sm shadow-red-300 hover:shadow-md"
+                className="group cursor-pointer bg-red-600 hover:bg-red-700 text-white p-4 md:p-5 rounded-full transition-all duration-300 transform hover:scale-105 shadow-sm shadow-red-300 hover:shadow-md hidden lg:block"
               >
                 <svg
                   className="w-5 h-5 lg:w-8 lg:h-8"
@@ -99,7 +105,7 @@ const SectionHotMovie = () => {
               <div className="flex items-center bg-white/10 backdrop-blur-md rounded-full overflow-hidden border border-white/10">
                 {/* HEART */}
                 <button
-                  className="px-5 py-3 hover:bg-white/10 transition-all cursor-pointer"
+                  className="px-5 py-3 hover:bg-white/10 transition-all cursor-pointer hidden lg:block"
                   title="Yêu thích"
                 >
                   <svg
@@ -112,7 +118,7 @@ const SectionHotMovie = () => {
                 </button>
 
                 {/* DIVIDER */}
-                <div className="w-px h-6 bg-white/20"></div>
+                <div className="w-px h-6 bg-white/20 hidden lg:block"></div>
 
                 {/* DETAIL */}
                 <button
@@ -120,10 +126,10 @@ const SectionHotMovie = () => {
                     navigate(
                       `/movie/${toSlug(currentMovie.name)}?id=${
                         currentMovie.id
-                      }`
+                      }`,
                     )
                   }
-                  className="px-5 py-3 hover:bg-white/10 transition-all cursor-pointer"
+                  className="px-5 py-3 hover:bg-white/10 transition-all cursor-pointer hidden lg:block"
                   title="Chi tiết"
                 >
                   <svg
@@ -142,13 +148,13 @@ const SectionHotMovie = () => {
 
       {/* Thumbnail Navigation - Bottom */}
       {movies.length > 1 && (
-        <div className="absolute bottom-0 left-0 right-0 z-20 bg-leanear-to-t from-black/80 to-transparent py-4">
+        <div className="absolute bottom-0 left-0 right-0 z-20 bg-linear-to-t from-[rgb(13,13,12)] from-50% to-transparent py-4">
           <div className="flex justify-center gap-3 px-4">
             {movies.map((movie, index) => (
               <button
                 key={movie.id}
                 onClick={() => goToSlide(index)}
-                className={`relative w-20 h-12 md:w-24 md:h-14 rounded overflow-hidden transition-all duration-300 ${
+                className={`relative w-13 h-9 md:w-20 md:h-12 rounded overflow-hidden transition-all duration-300 ${
                   index === currentIndex
                     ? "ring-2 ring-red-500 scale-110"
                     : "opacity-60 hover:opacity-100 hover:scale-105"
