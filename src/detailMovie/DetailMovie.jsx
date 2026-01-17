@@ -15,7 +15,7 @@ const DetailMovie = () => {
   const { data: listMovie } = useGetListMovie();
   const sameGenreMovies =
     listMovie?.filter(
-      (mov) => mov?.categories === movie?.categories && mov.id !== movie?.id
+      (mov) => mov?.categories === movie?.categories && mov.id !== movie?.id,
     ) || [];
 
   const [activeTab, setActiveTab] = useState("suggestions");
@@ -38,7 +38,7 @@ const DetailMovie = () => {
             to-[rgb(13,13,12)] mask-r-from-30%"
         ></div>
 
-        <div className="relative z-10 bg-linear-to-t from-[rgb(13,13,12)] from-90% lg:from-69% to-[rgb(13,13,12)]/10 w-full text-white px-5 md:px-10 lg:px-30 pt-50 md:pt-60 lg:pt-80 pb-15 lg:pb-30">
+        <div className="relative z-10 bg-linear-to-t from-[rgb(13,13,12)] from-85% lg:from-69% to-[rgb(13,13,12)]/10 w-full text-white px-5 md:px-10 lg:px-30 pt-50 md:pt-60 lg:pt-80 pb-15 lg:pb-30">
           <div className="lg:flex items-start gap-20 lg:mt-80">
             <div className="lg:w-1/3">
               <div className="flex flex-col items-center justify-center lg:block">
@@ -288,7 +288,7 @@ const DetailMovie = () => {
                           <button
                             onClick={() =>
                               navigate(
-                                `/watch/${toSlug(movie?.name)}?id=${movie?.id}`
+                                `/watch/${toSlug(movie?.name)}?id=${movie?.id}`,
                               )
                             }
                             className="text-sm font-semibold w-fit bg-white rounded-2xl text-black px-4 py-2 cursor-pointer hover:scale-105 transition duration-300"
@@ -307,7 +307,7 @@ const DetailMovie = () => {
                         key={item?.id}
                         onClick={() =>
                           navigate(
-                            `/movie/${toSlug(item?.name)}?id=${item?.id}`
+                            `/movie/${toSlug(item?.name)}?id=${item?.id}`,
                           )
                         }
                         className="relative w-fit group"

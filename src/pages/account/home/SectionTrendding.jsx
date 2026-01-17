@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import useGetListMovie from "../../../hooks/useGetListMovie";
 import HoverDetailCard from "../../../components/HoverDetailCard";
+import { toSlug } from "../../../libs/toSlug";
+import { useNavigate } from "react-router-dom";
 
 const gradients = [
   "from-[#8F8AE8] via-[#A8A4F0]/60 to-transparent", // tím xanh
@@ -17,7 +19,7 @@ const gradients = [
 
 const SectionTrendding = () => {
   const { data: movie } = useGetListMovie();
-
+  const navigate = useNavigate();
   const listRef = useRef(null);
 
   const scrollLeft = () => {
@@ -39,39 +41,49 @@ const SectionTrendding = () => {
     movie: null,
     pos: null,
   });
-  const timeoutRef = useRef(null);
+  const timeoutRef = useRef(null); // Ref này cực kỳ quan trọng để quản lý thời gian
 
   const handleMouseEnter = (e, item) => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current); // Xóa lệnh đóng đang chờ
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    if (activeHover.show) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setActiveHover({
+        show: true,
+        movie: item,
+        pos: {
+          top: rect.top + window.scrollY,
+          left: rect.left + window.scrollX,
+        },
+      });
+      return; // Thoát hàm, không chạy bộ đếm 1s nữa
+    }
 
+    // 3. NẾU CHƯA HIỆN CARD: Đợi đúng 1s mới hiện (như logic cũ của bạn)
     const rect = e.currentTarget.getBoundingClientRect();
-    setActiveHover({
-      show: true,
-      movie: item,
-      pos: { top: rect.top, left: rect.left },
-    });
+    const absolutePos = {
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
+    };
+
+    timeoutRef.current = setTimeout(() => {
+      setActiveHover({
+        show: true,
+        movie: item,
+        pos: absolutePos,
+      });
+    }, 700);
   };
 
   const handleMouseLeave = () => {
-    // Đợi 200ms trước khi đóng để người dùng kịp di chuyển chuột vào Card
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
     timeoutRef.current = setTimeout(() => {
       setActiveHover((prev) => ({ ...prev, show: false }));
-    }, 200);
+    }, 0);
   };
-
-  // ... Trong phần return, khi gọi HoverDetailCard:
-  {
-    activeHover.show && (
-      <HoverDetailCard
-        movie={activeHover.movie}
-        position={activeHover.pos}
-        onMouseLeave={handleMouseLeave}
-        onMouseEnter={() => {
-          if (timeoutRef.current) clearTimeout(timeoutRef.current); // QUAN TRỌNG: Vào card thì không đóng nữa
-        }}
-      />
-    );
-  }
 
   return (
     <>
@@ -87,7 +99,10 @@ const SectionTrendding = () => {
           {movie?.slice(0, 10).map((item, index) => (
             <li
               key={item.id}
-              className="flex items-center justify-center shrink-0 relative cursor-pointer group"
+              onClick={() =>
+                navigate(`/movie/${toSlug(item.name)}?id=${item.id}`)
+              }
+              className="flex items-center justify-center shrink-0 relative cursor-pointer"
               onMouseEnter={(e) => handleMouseEnter(e, item)}
               onMouseLeave={handleMouseLeave}
             >
@@ -118,6 +133,19 @@ const SectionTrendding = () => {
             </li>
           ))}
         </ul>
+
+        {/* RENDER CARD - Quan trọng: Phải có cả onMouseEnter ở đây */}
+        {activeHover.show && (
+          <HoverDetailCard
+            movie={activeHover.movie}
+            position={activeHover.pos}
+            onMouseLeave={handleMouseLeave}
+            onMouseEnter={() => {
+              // Khi chuột đã vào bên trong Card, xóa lệnh "đóng card" (timeout 300ms ở trên)
+              if (timeoutRef.current) clearTimeout(timeoutRef.current);
+            }}
+          />
+        )}
 
         <div className="hidden lg:block">
           <button
@@ -154,15 +182,6 @@ const SectionTrendding = () => {
             </svg>
           </button>
         </div>
-
-        {/* RENDER CARD DÙNG CHUNG Ở ĐÂY */}
-        {activeHover.show && (
-          <HoverDetailCard
-            movie={activeHover.movie}
-            position={activeHover.pos}
-            onMouseLeave={handleMouseLeave}
-          />
-        )}
       </section>
     </>
   );

@@ -149,3 +149,18 @@ input:-webkit-autofill:active {
   font-weight: 400;
   font-style: normal;
 }
+
+@keyframes fadeIn_hover {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.5); /* Để scale nhỏ hơn chút cho hiệu ứng bung ra rõ hơn */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1.1); /* 1.1 để khớp với hiệu ứng phóng to của phim */
+  }
+}
+
+.animate-fadeIn-hover {
+  animation: fadeIn_hover 0.3s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}

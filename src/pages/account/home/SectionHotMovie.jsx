@@ -154,7 +154,7 @@ const SectionHotMovie = () => {
               <button
                 key={movie.id}
                 onClick={() => goToSlide(index)}
-                className={`relative w-13 h-9 md:w-20 md:h-12 rounded overflow-hidden transition-all duration-300 ${
+                className={`relative w-13 h-9 md:w-20 md:h-12 lg:w-25 lg:h-15 rounded overflow-hidden transition-all duration-300 ${
                   index === currentIndex
                     ? "ring-2 ring-red-500 scale-110"
                     : "opacity-60 hover:opacity-100 hover:scale-105"
