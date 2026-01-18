@@ -6,7 +6,11 @@ import { toSlug } from "../../../libs/toSlug";
 const SectionHotMovie = () => {
   const { data, isLoading } = useGetListMovie();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const movies = data?.filter((item) => item?.hot === true)?.slice(0, 8) || [];
+  const movies =
+    data
+      ?.filter((item) => item?.hot === true)
+      ?.slice(0, 8)
+      .sort((a, b) => b.year - a.year) || [];
   const navigate = useNavigate();
 
   // Auto slide every 15 seconds
@@ -48,7 +52,7 @@ const SectionHotMovie = () => {
           style={{ backgroundImage: `url(${currentMovie.background})` }}
         >
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/50 to-transparent"></div>
+          <div className="absolute inset-0 bg-linear-to-r from-black/80 via-white/10 to-transparent"></div>
           <div className="absolute inset-0 bg-black/20"></div>
         </div>
 

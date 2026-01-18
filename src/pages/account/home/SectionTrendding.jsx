@@ -112,7 +112,7 @@ const SectionTrendding = () => {
               onMouseLeave={handleMouseLeave}
             >
               <img
-                className="rounded-2xl w-47 h-65 lg:w-65 lg:h-95"
+                className="rounded-2xl w-47 h-65 lg:w-65 lg:h-90"
                 src={item?.poster}
                 alt=""
               />
