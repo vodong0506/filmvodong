@@ -29,7 +29,7 @@ const DetailMovie = () => {
     <>
       <div
         className="w-full h-[40vh] lg:h-screen relative bg-center bg-cover"
-        style={{ backgroundImage: `url(${movie?.poster})` }}
+        style={{ backgroundImage: `url(${movie?.background})` }}
       >
         <div
           className="absolute inset-0 bg-linear-to-r 
@@ -44,7 +44,7 @@ const DetailMovie = () => {
               <div className="flex flex-col items-center justify-center lg:block">
                 <img
                   className="w-30 md:w-40 lg:w-50 rounded-2xl"
-                  src={movie?.image}
+                  src={movie?.poster}
                   alt=""
                 />
                 <p className="mt-5 text-xl lg:text-3xl font-semibold">

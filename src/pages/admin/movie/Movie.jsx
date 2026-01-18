@@ -21,12 +21,16 @@ const Movie = () => {
     director: "",
     language: "",
     poster: "",
+    background: "",
     url: "",
     country: "",
     description: "",
     hot: false,
-    image: "",
+    banner: "",
     year: "",
+    view: 0,
+    trendding: false,
+    vip: false,
   };
 
   const { data } = useGetListCategory();
@@ -46,23 +50,36 @@ const Movie = () => {
   const page = parseInt(searchParams.get("page") || 1);
   const itemsPerPage = 10;
 
+  const [filter, setFilter] = useState({
+    category: "",
+    year: "",
+    trendding: false,
+    hot: false,
+    vip: false,
+    view: "",
+  });
+
   useEffect(() => {
     handleGetList(); // gọi API để lấy tất cả movies
   }, [handleGetList]);
 
   // Tính toán phân trang
-  const totalPages = Math.ceil(listMovie.length / itemsPerPage);
+  const filteredMovies = listMovie
+    .filter((m) => (filter.category ? m.categories === filter.category : true))
+    .filter((m) => (filter.year ? String(m.year) === filter.year : true))
+    .filter((m) => (filter.trendding ? m.trendding : true))
+    .filter((m) => (filter.hot ? m.hot : true))
+    .filter((m) => (filter.vip ? m.vip : true))
+    .sort((a, b) => {
+      if (filter.view === "desc") return b.view - a.view;
+      if (filter.view === "asc") return a.view - b.view;
+      return 0;
+    });
+
+  const totalPages = Math.ceil(filteredMovies.length / itemsPerPage);
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const moviesPage = listMovie.slice(startIndex, endIndex);
-
-  const handleChangePage = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setSearchParams({ page: newPage });
-      // Scroll to top khi chuyển trang
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
+  const moviesPage = filteredMovies.slice(startIndex, endIndex);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,6 +88,17 @@ const Movie = () => {
       [name]: value,
     }));
   };
+
+  const handleChangePage = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setSearchParams({ page: newPage });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    setSearchParams({ page: 1 });
+  }, [setSearchParams]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -144,27 +172,71 @@ const Movie = () => {
         {/* Header with Add Button */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Quản lý danh sách phim</h2>
-          <button
-            onClick={() => {
-              setIsModalOpen(true), setIsUpdate(false);
-            }}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
+          <div className="flex flex-wrap gap-4 items-center justify-between mb-6">
+            {/* Bộ lọc */}
+            <div className="flex flex-wrap gap-3 items-center">
+              {/* Thể loại */}
+              <select
+                className="bg-gray-700 text-white px-3 py-2 rounded-lg"
+                value={filter.category}
+                onChange={(e) =>
+                  setFilter({ ...filter, category: e.target.value })
+                }
+              >
+                <option value="">Tất cả thể loại</option>
+                {data?.map((c) => (
+                  <option key={c.id} value={c.name}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+
+              {/* Năm */}
+              <input
+                type="number"
+                placeholder="Năm"
+                className="bg-gray-700 text-white px-3 py-2 rounded-lg w-24"
+                value={filter.year}
+                onChange={(e) => setFilter({ ...filter, year: e.target.value })}
               />
-            </svg>
-            Thêm phim mới
-          </button>
+
+              {/* Trending / Hot / VIP */}
+              {["trendding", "hot", "vip"].map((key) => (
+                <label key={key} className="flex items-center gap-1 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={filter[key]}
+                    onChange={(e) =>
+                      setFilter({ ...filter, [key]: e.target.checked })
+                    }
+                  />
+                  {key.toUpperCase()}
+                </label>
+              ))}
+
+              {/* View */}
+              <select
+                className="bg-gray-700 text-white px-3 py-2 rounded-lg"
+                value={filter.view}
+                onChange={(e) => setFilter({ ...filter, view: e.target.value })}
+              >
+                <option value="">View mặc định</option>
+                <option value="desc">View cao → thấp</option>
+                <option value="asc">View thấp → cao</option>
+              </select>
+            </div>
+
+            {/* Nút thêm phim */}
+            <button
+              onClick={() => {
+                setIsModalOpen(true);
+                setIsUpdate(false);
+              }}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 cursor-pointer"
+            >
+              Thêm phim mới
+            </button>
+          </div>
         </div>
 
         {/* Table */}
@@ -232,7 +304,7 @@ const Movie = () => {
                         {item.categories}
                       </td>
                       <td className="px-6 py-4 text-white">
-                        <img className="w-30" src={item.poster} alt="poster" />
+                        <img className="w-20" src={item.poster} alt="poster" />
                       </td>
                       <td className="px-6 py-4 text-white">{item.country}</td>
                       <td className="px-6 py-4">
@@ -248,7 +320,7 @@ const Movie = () => {
                       <td className="px-6 py-4 text-gray-300">
                         {item.createdAt?.seconds
                           ? new Date(
-                              item.createdAt.seconds * 1000
+                              item.createdAt.seconds * 1000,
                             ).toLocaleString("vi-VN")
                           : "—"}
                       </td>
@@ -331,7 +403,7 @@ const Movie = () => {
                     );
                   }
                   return null;
-                }
+                },
               )}
             </div>
 

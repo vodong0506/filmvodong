@@ -270,21 +270,51 @@ const AddMovie = ({
                           className="w-full rounded-xl bg-gray-800/60 border border-gray-700/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 focus:bg-gray-800"
                         />
                       </div>
+                    </div>
 
-                      <div className="flex items-center gap-3 mt-2">
-                        <label className="block text-sm font-medium text-gray-200">
-                          Hot
-                        </label>
-                        <input
-                          type="checkbox"
-                          name="hot"
-                          checked={movie.hot || false}
-                          onChange={(e) =>
-                            setMovie({ ...movie, hot: e.target.checked })
-                          }
-                          className="w-4 h-4 cursor-pointer"
-                        />
-                      </div>
+                    <div className="flex items-center gap-3 mt-5">
+                      <label className="block text-sm font-medium text-gray-200">
+                        Hot
+                      </label>
+                      <input
+                        type="checkbox"
+                        name="hot"
+                        checked={movie.hot || false}
+                        onChange={(e) =>
+                          setMovie({ ...movie, hot: e.target.checked })
+                        }
+                        className="w-4 h-4 cursor-pointer"
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-3 mt-5">
+                      <label className="block text-sm font-medium text-gray-200">
+                        Trendding
+                      </label>
+                      <input
+                        type="checkbox"
+                        name="trendding"
+                        checked={movie.trendding || false}
+                        onChange={(e) =>
+                          setMovie({ ...movie, trendding: e.target.checked })
+                        }
+                        className="w-4 h-4 cursor-pointer"
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-3 mt-5">
+                      <label className="block text-sm font-medium text-gray-200">
+                        Vip
+                      </label>
+                      <input
+                        type="checkbox"
+                        name="vip"
+                        checked={movie.vip || false}
+                        onChange={(e) =>
+                          setMovie({ ...movie, vip: e.target.checked })
+                        }
+                        className="w-4 h-4 cursor-pointer"
+                      />
                     </div>
                   </div>
                 </div>
@@ -295,16 +325,50 @@ const AddMovie = ({
                     Media
                   </h3>
 
-                  {/* Link main img */}
+                  {/* Poster*/}
                   <div>
                     <label className="block mb-2 text-sm font-medium text-gray-200">
-                      Ảnh đại diện phim
+                      Poster
                     </label>
                     <input
-                      name="image"
-                      value={movie.image}
+                      name="poster"
+                      value={movie.poster}
                       onChange={handleChange}
                       placeholder="https://.."
+                      autoComplete="current-password"
+                      spellCheck="false"
+                      required
+                      className="w-full rounded-xl bg-gray-800/60 border border-gray-700/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 focus:bg-gray-800"
+                    />
+                  </div>
+
+                  {/* Banner */}
+                  <div>
+                    <label className="block mb-2 text-sm font-medium text-gray-200">
+                      Banner
+                    </label>
+                    <input
+                      name="banner"
+                      value={movie.banner}
+                      onChange={handleChange}
+                      placeholder="https://..."
+                      autoComplete="current-password"
+                      spellCheck="false"
+                      required
+                      className="w-full rounded-xl bg-gray-800/60 border border-gray-700/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 focus:bg-gray-800"
+                    />
+                  </div>
+
+                  {/* Background */}
+                  <div>
+                    <label className="block mb-2 text-sm font-medium text-gray-200">
+                      Background
+                    </label>
+                    <input
+                      name="background"
+                      value={movie.background}
+                      onChange={handleChange}
+                      placeholder="https://..."
                       autoComplete="current-password"
                       spellCheck="false"
                       required
@@ -322,23 +386,6 @@ const AddMovie = ({
                       value={movie.url}
                       onChange={handleChange}
                       placeholder="https://drive.google.com/..."
-                      autoComplete="current-password"
-                      spellCheck="false"
-                      required
-                      className="w-full rounded-xl bg-gray-800/60 border border-gray-700/50 px-4 py-3 text-white placeholder-gray-500 outline-none transition-all focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 focus:bg-gray-800"
-                    />
-                  </div>
-
-                  {/* Poster */}
-                  <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-200">
-                      Poster URL
-                    </label>
-                    <input
-                      name="poster"
-                      value={movie.poster}
-                      onChange={handleChange}
-                      placeholder="https://..."
                       autoComplete="current-password"
                       spellCheck="false"
                       required

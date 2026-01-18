@@ -23,9 +23,9 @@ const HoverDetailCard = ({ movie, position, onMouseLeave, onMouseEnter }) => {
     >
       <div className="relative h-44">
         <img
-          src={movie.poster}
+          src={movie?.background}
           className="w-full h-full object-cover"
-          alt={movie.name}
+          alt={movie?.name}
         />
         {/* Dùng CSS Gradient chuẩn cho Tailwind v3/v4 */}
         <div className="absolute inset-0 bg-linear-to-t from-[#181818] to-transparent" />
@@ -33,7 +33,7 @@ const HoverDetailCard = ({ movie, position, onMouseLeave, onMouseEnter }) => {
 
       <div className="p-4 text-white mt-3">
         <h3 className="font-bold text-lg leading-tight line-clamp-1">
-          {movie.name}
+          {movie?.name}
         </h3>
 
         <div className="mt-2 flex items-center gap-2">
@@ -49,7 +49,7 @@ const HoverDetailCard = ({ movie, position, onMouseLeave, onMouseEnter }) => {
         </div>
 
         <p className="text-[11px] text-zinc-300 mt-3 line-clamp-3 leading-snug">
-          {movie.description}
+          {movie?.description}
         </p>
 
         <div className="mt-5 flex items-center gap-3">
@@ -77,7 +77,7 @@ const HoverDetailCard = ({ movie, position, onMouseLeave, onMouseEnter }) => {
 
           <button
             onClick={() =>
-              navigate(`/movie/${toSlug(movie.name)}?id=${movie.id}`)
+              navigate(`/movie/${toSlug(movie?.name)}?id=${movie?.id}`)
             }
             className="border border-white rounded-full p-2 cursor-pointer hover:scale-110 transition duration-300"
           >

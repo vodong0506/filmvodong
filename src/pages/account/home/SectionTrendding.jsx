@@ -18,7 +18,12 @@ const gradients = [
 ];
 
 const SectionTrendding = () => {
-  const { data: movie } = useGetListMovie();
+  const { data } = useGetListMovie();
+  const movie =
+    data
+      ?.filter((item) => item?.trendding === true)
+      .sort((a, b) => b.year - a.year)
+      ?.slice(0, 10) || [];
   const navigate = useNavigate();
   const listRef = useRef(null);
 
@@ -96,7 +101,7 @@ const SectionTrendding = () => {
           ref={listRef}
           className="mt-5 flex flex-nowrap overflow-x-auto scroll-smooth pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden gap-4 md:gap-3 lg:gap-5"
         >
-          {movie?.slice(0, 10).map((item, index) => (
+          {movie?.map((item, index) => (
             <li
               key={item.id}
               onClick={() =>
@@ -108,7 +113,7 @@ const SectionTrendding = () => {
             >
               <img
                 className="rounded-2xl w-47 h-65 lg:w-65 lg:h-95"
-                src={item?.image}
+                src={item?.poster}
                 alt=""
               />
 

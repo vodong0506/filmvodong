@@ -110,7 +110,7 @@ const WatchMovie = () => {
 
       <div className="lg:px-75 mt-10 lg:mt-15">
         <div className="flex gap-5">
-          <img className="w-40 md:w-50" src={movie?.image} alt="image movie" />
+          <img className="w-40 md:w-50" src={movie?.poster} alt="image movie" />
           <div>
             <p className="font-semibold text-xl">{movie?.name}</p>
             <div className="mt-5">

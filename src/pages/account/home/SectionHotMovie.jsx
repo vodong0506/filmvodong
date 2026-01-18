@@ -34,7 +34,7 @@ const SectionHotMovie = () => {
 
   const handleBackgroundClick = () => {
     if (window.innerWidth < 1024) {
-      navigate(`/movie/${toSlug(currentMovie.name)}?id=${currentMovie.id}`);
+      navigate(`/movie/${toSlug(currentMovie?.name)}?id=${currentMovie?.id}`);
     }
   };
 
@@ -45,7 +45,7 @@ const SectionHotMovie = () => {
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-in-out animate-fade-in"
-          style={{ backgroundImage: `url(${currentMovie.poster})` }}
+          style={{ backgroundImage: `url(${currentMovie.background})` }}
         >
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/50 to-transparent"></div>
@@ -162,7 +162,7 @@ const SectionHotMovie = () => {
                 aria-label={`Chuyển đến ${movie.name}`}
               >
                 <img
-                  src={movie.poster}
+                  src={movie.background}
                   alt={movie.name}
                   className="w-full h-full object-cover"
                 />
