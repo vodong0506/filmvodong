@@ -6,6 +6,10 @@ import Background from "./Background";
 import SectionHotMovie from "./SectionHotMovie";
 import SectionCategories from "./SectionCategories";
 import SectionTrendding from "./SectionTrendding";
+import SectionMovieEnglish from "./SectionMovieEnglish";
+import SectionVietNamFamily from "./SectionVietNamFamily";
+import SectionHollywoodMovies from "./SectionHollywoodMovies";
+import SectionVietnamHistoryMovies from "./SectionVietnamHistoryMovies";
 
 const Home = () => {
   const user = useSelector((state) => state.authen.user);
@@ -21,6 +25,10 @@ const Home = () => {
       <div className="px-5 md:px-10 lg:px-30 bg-[rgb(13,13,12)]">
         <SectionCategories />
         <SectionTrendding />
+        <SectionMovieEnglish />
+        <SectionVietNamFamily />
+        <SectionHollywoodMovies />
+        <SectionVietnamHistoryMovies />
       </div>
     </>
   );

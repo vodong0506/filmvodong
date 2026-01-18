@@ -1,27 +1,19 @@
 import React, { useRef, useState } from "react";
 import useGetListMovie from "../../../hooks/useGetListMovie";
+import { useNavigate } from "react-router-dom";
 import HoverDetailCard from "../../../components/HoverDetailCard";
 import { toSlug } from "../../../libs/toSlug";
-import { useNavigate } from "react-router-dom";
 
-const gradients = [
-  "from-[#8F8AE8] via-[#A8A4F0]/60 to-transparent", // tím xanh
-  "from-[#6FBFAE] via-[#8BC9BC]/60 to-transparent", // xanh mint
-  "from-[#C89A80] via-[#D4AC94]/60 to-transparent", // cam nâu
-  "from-[#A67878] via-[#B98C8C]/60 to-transparent", // đỏ pastel
-  "from-[#7C8694] via-[#9AA3AD]/60 to-transparent", // xám xanh
-  "from-[#9B8BE5] via-[#B2A2EE]/60 to-transparent", // tím lavender
-  "from-[#8E5A9E] via-[#B48CC6]/60 to-transparent", // tím hồng
-  "from-[#5F8FBF] via-[#8FB3D9]/60 to-transparent", // xanh dương
-  "from-[#B68C5A] via-[#D2B48C]/60 to-transparent", // vàng nâu
-  "from-[#5E9E8C] via-[#84BDB0]/60 to-transparent", // xanh ngọc
-];
-
-const SectionTrendding = () => {
+const SectionMovieEnglish = () => {
   const { data } = useGetListMovie();
   const movie =
     data
-      ?.filter((item) => item?.trendding === true)
+      ?.filter(
+        (item) =>
+          item?.language === "English" &&
+          item?.country !== "Hoa Kỳ (Mỹ)" &&
+          item?.categories !== "Hoạt hình",
+      )
       .sort((a, b) => b.year - a.year)
       ?.slice(0, 10) || [];
   const navigate = useNavigate();
@@ -94,47 +86,29 @@ const SectionTrendding = () => {
     <>
       <section className="text-white pt-5 lg:pt-10 pb-5 relative">
         <h1 className="text-xl lg:text-2xl font-semibold">
-          Top 10 phim xu hướng
+          Phim thyết minh - lồng tiếng
         </h1>
 
         <ul
           ref={listRef}
           className="mt-5 flex flex-nowrap overflow-x-auto scroll-smooth pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden gap-4 md:gap-3 lg:gap-5"
         >
-          {movie?.map((item, index) => (
+          {movie?.map((item) => (
             <li
-              key={item.id}
+              key={item?.id}
               onClick={() =>
                 navigate(`/movie/${toSlug(item.name)}?id=${item.id}`)
               }
-              className="flex items-center justify-center shrink-0 relative cursor-pointer"
               onMouseEnter={(e) => handleMouseEnter(e, item)}
               onMouseLeave={handleMouseLeave}
+              className="cursor-pointer shrink-0"
             >
               <img
-                className="rounded-2xl w-47 h-65 lg:w-65 lg:h-95"
-                src={item?.poster}
+                className="rounded-xl lg:w-66 lg:h-40 w-46 h-27 md:w-50 md:h-30"
+                src={item.banner}
                 alt=""
               />
-
-              <div
-                className={`absolute bottom-0 w-full h-2/3 bg-linear-to-t from-40% rounded-b-2xl ${gradients[index % gradients.length]}`}
-              ></div>
-              <div className="absolute top-3/5 left-5 right-5">
-                <p
-                  className="font-black text-6xl lg:text-8xl leading-none text-white/30"
-                  style={{
-                    WebkitTextStroke: "1px rgba(255, 255, 255, 0.5)", // Viền trắng mảnh mờ
-                    filter:
-                      "drop-shadow(0 0 5px rgba(255,255,255,0.6)) drop-shadow(0 0 2px rgba(255,255,255,0.4))", // Tạo độ mờ tỏa nhẹ từ viền
-                  }}
-                >
-                  {index + 1}
-                </p>
-                <p className="line-clamp-2 wrap-break-word font-semibold leading-snug text-sm lg:text-base">
-                  {item.name}
-                </p>
-              </div>
+              <p className="mt-2 lg:w-66 md:w-50 w-45 px-2">{item.name}</p>
             </li>
           ))}
         </ul>
@@ -192,4 +166,4 @@ const SectionTrendding = () => {
   );
 };
 
-export default SectionTrendding;
+export default SectionMovieEnglish;
