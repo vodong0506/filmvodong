@@ -6,6 +6,7 @@ import { toSlug } from "../libs/toSlug";
 import CommentVideo from "./CommentVideo";
 import useGetListMovie from "../hooks/useGetListMovie";
 import Footer from "../components/Footer";
+import { increaseViewMovie } from "../service/movie-service";
 
 const DetailMovie = () => {
   const navigate = useNavigate();
@@ -25,6 +26,10 @@ const DetailMovie = () => {
     window.scrollTo({ top: 0 });
   }, [id]);
 
+  const shuffleArray = (arr) => {
+    return [...arr].sort(() => Math.random() - 0.5);
+  };
+
   return (
     <>
       <div
@@ -33,9 +38,9 @@ const DetailMovie = () => {
       >
         <div
           className="absolute inset-0 bg-linear-to-r 
-            from-[rgb(13,13,12)] mask-l-from-30%
+            from-[rgb(13,13,12)] mask-l-from-20%
             via-black/60 via-50% 
-            to-[rgb(13,13,12)] mask-r-from-30%"
+            to-[rgb(13,13,12)] mask-r-from-20%"
         ></div>
 
         <div className="relative z-10 bg-linear-to-t from-[rgb(13,13,12)] from-85% lg:from-69% to-[rgb(13,13,12)]/10 w-full text-white px-5 md:px-10 lg:px-30 pt-50 md:pt-60 lg:pt-80 pb-15 lg:pb-30">
@@ -154,9 +159,10 @@ const DetailMovie = () => {
             <div className="lg:w-2/3 mt-7">
               <div className="lg:flex items-center justify-between px-10 md:px-40 lg:px-0">
                 <button
-                  onClick={() =>
-                    navigate(`/watch/${toSlug(movie?.name)}?id=${movie?.id}`)
-                  }
+                  onClick={async () => {
+                    await increaseViewMovie(movie.id);
+                    navigate(`/watch/${toSlug(movie?.name)}?id=${movie?.id}`);
+                  }}
                   className="flex items-center w-full lg:w-fit justify-center gap-2 cursor-pointer bg-linear-to-r from-red-600 to-red-500 hover:bg-red-700 text-white lg:text-xl font-semibold py-3 lg:px-6 lg:py-4 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   <svg
@@ -302,27 +308,29 @@ const DetailMovie = () => {
                 )}
                 {activeTab === "suggestions" && (
                   <ul className="mt-10 grid lg:grid-cols-6 md:grid-cols-4 min-[430px]:grid-cols-2 grid-cols-2 gap-3 md:gap-5">
-                    {sameGenreMovies?.map((item) => (
-                      <li
-                        key={item?.id}
-                        onClick={() =>
-                          navigate(
-                            `/movie/${toSlug(item?.name)}?id=${item?.id}`,
-                          )
-                        }
-                        className="relative w-fit group"
-                      >
-                        <img
-                          className="w-45 min-[430px]:w-50 md:w-40 rounded-2xl"
-                          src={item.image}
-                          alt=""
-                        />
-                        <p className="absolute bottom-2 left-1/3 p-2 rounded-md text-xs bg-green-700 font-bold">
-                          Trailer
-                        </p>
-                        <div className="absolute bg-transparent group-hover:bg-black/20 inset-0 transition duration-300 cursor-pointer"></div>
-                      </li>
-                    ))}
+                    {shuffleArray(sameGenreMovies)
+                      ?.slice(0, 12)
+                      ?.map((item) => (
+                        <li
+                          key={item?.id}
+                          onClick={() =>
+                            navigate(
+                              `/movie/${toSlug(item?.name)}?id=${item?.id}`,
+                            )
+                          }
+                          className="relative w-fit group"
+                        >
+                          <img
+                            className="w-45 min-[430px]:w-50 md:w-40 rounded-2xl"
+                            src={item?.poster}
+                            alt=""
+                          />
+                          <p className="absolute bottom-2 left-1/3 p-2 rounded-md text-xs bg-green-700 font-bold">
+                            Trailer
+                          </p>
+                          <div className="absolute bg-transparent group-hover:bg-black/20 inset-0 transition duration-300 cursor-pointer"></div>
+                        </li>
+                      ))}
                   </ul>
                 )}
 

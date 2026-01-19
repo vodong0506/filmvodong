@@ -5,6 +5,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  increment,
   orderBy,
   query,
   serverTimestamp,
@@ -15,7 +16,7 @@ import { db } from "../firebase";
 const movieRef = collection(db, "movie");
 
 export const createMovie = async (data) => {
-  return addDoc(movieRef, {
+  return await addDoc(movieRef, {
     ...data,
     createdAt: serverTimestamp(),
   });
@@ -65,4 +66,11 @@ export const getMovieById = async (id) => {
     id: snap.id,
     ...snap.data(),
   };
+};
+
+export const increaseViewMovie = async (id) => {
+  const movieRef = doc(db, "movie", id);
+  await updateDoc(movieRef, {
+    view: increment(1),
+  });
 };

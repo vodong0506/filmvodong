@@ -2,6 +2,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { toSlug } from "../libs/toSlug";
+import { increaseViewMovie } from "../service/movie-service";
 
 const HoverDetailCard = ({ movie, position, onMouseLeave, onMouseEnter }) => {
   const navigate = useNavigate();
@@ -54,9 +55,10 @@ const HoverDetailCard = ({ movie, position, onMouseLeave, onMouseEnter }) => {
 
         <div className="mt-5 flex items-center gap-3">
           <button
-            onClick={() =>
-              navigate(`/watch/${toSlug(movie?.name)}?id=${movie?.id}`)
-            }
+            onClick={async () => {
+              await increaseViewMovie(movie?.id);
+              navigate(`/watch/${toSlug(movie?.name)}?id=${movie?.id}`);
+            }}
             className="flex items-center w-full lg:w-fit justify-center gap-2 cursor-pointer bg-linear-to-r from-red-600 to-red-500 hover:bg-red-700 text-white text-sm font-semibold py-3 lg:px-4 lg:py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">

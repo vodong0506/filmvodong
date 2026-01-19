@@ -98,7 +98,7 @@ const Movie = () => {
 
   useEffect(() => {
     setSearchParams({ page: 1 });
-  }, [setSearchParams]);
+  }, [filter]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

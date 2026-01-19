@@ -10,6 +10,8 @@ import SectionMovieEnglish from "./SectionMovieEnglish";
 import SectionVietNamFamily from "./SectionVietNamFamily";
 import SectionHollywoodMovies from "./SectionHollywoodMovies";
 import SectionVietnamHistoryMovies from "./SectionVietnamHistoryMovies";
+import SectionTopViewedMovies from "./SectionTopViewedMovies";
+import SectionFillerCategoryMovie from "./SectionFillerCategoryMovie";
 
 const Home = () => {
   const user = useSelector((state) => state.authen.user);
@@ -29,6 +31,8 @@ const Home = () => {
         <SectionVietNamFamily />
         <SectionHollywoodMovies />
         <SectionVietnamHistoryMovies />
+        <SectionTopViewedMovies />
+        <SectionFillerCategoryMovie />
       </div>
     </>
   );

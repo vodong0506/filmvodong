@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import useGetListMovie from "../../../hooks/useGetListMovie";
 import { useNavigate } from "react-router-dom";
 import { toSlug } from "../../../libs/toSlug";
+import { increaseViewMovie } from "../../../service/movie-service";
 
 const SectionHotMovie = () => {
   const { data, isLoading } = useGetListMovie();
@@ -52,7 +53,7 @@ const SectionHotMovie = () => {
           style={{ backgroundImage: `url(${currentMovie.background})` }}
         >
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-linear-to-r from-black/80 via-white/10 to-transparent"></div>
+          <div className="absolute inset-0 bg-linear-to-r from-black/90 via-white/10 to-transparent"></div>
           <div className="absolute inset-0 bg-black/20"></div>
         </div>
 
@@ -91,11 +92,12 @@ const SectionHotMovie = () => {
             {/* Play Button */}
             <div className="flex items-center gap-5 lg:gap-10 mt-5">
               <button
-                onClick={() =>
+                onClick={async () => {
+                  await increaseViewMovie(currentMovie?.id);
                   navigate(
-                    `/watch/${toSlug(currentMovie.name)}?id=${currentMovie.id}`,
-                  )
-                }
+                    `/watch/${toSlug(currentMovie?.name)}?id=${currentMovie?.id}`,
+                  );
+                }}
                 className="group cursor-pointer bg-red-600 hover:bg-red-700 text-white p-4 md:p-5 rounded-full transition-all duration-300 transform hover:scale-105 shadow-sm shadow-red-300 hover:shadow-md hidden lg:block"
               >
                 <svg

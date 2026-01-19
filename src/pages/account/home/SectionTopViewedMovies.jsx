@@ -8,24 +8,27 @@ import useHorizontalScroll from "../../../hooks/useHorizontalScroll";
 import ScrollArrow from "./ScrollArrow";
 
 const gradients = [
-  "from-[#8F8AE8] via-[#A8A4F0]/60 to-transparent", // tím xanh
-  "from-[#6FBFAE] via-[#8BC9BC]/60 to-transparent", // xanh mint
-  "from-[#C89A80] via-[#D4AC94]/60 to-transparent", // cam nâu
-  "from-[#A67878] via-[#B98C8C]/60 to-transparent", // đỏ pastel
-  "from-[#7C8694] via-[#9AA3AD]/60 to-transparent", // xám xanh
-  "from-[#9B8BE5] via-[#B2A2EE]/60 to-transparent", // tím lavender
-  "from-[#8E5A9E] via-[#B48CC6]/60 to-transparent", // tím hồng
-  "from-[#5F8FBF] via-[#8FB3D9]/60 to-transparent", // xanh dương
-  "from-[#B68C5A] via-[#D2B48C]/60 to-transparent", // vàng nâu
-  "from-[#5E9E8C] via-[#84BDB0]/60 to-transparent", // xanh ngọc
+  "from-[#8F8AE8] via-[#A8A4F0]/20 to-transparent", // tím xanh
+  "from-[#6FBFAE] via-[#8BC9BC]/20 to-transparent", // xanh mint
+  "from-[#C89A80] via-[#D4AC94]/20 to-transparent", // cam nâu
+  "from-[#A67878] via-[#B98C8C]/20 to-transparent", // đỏ pastel
+  "from-[#7C8694] via-[#9AA3AD]/20 to-transparent", // xám xanh
+  "from-[#9B8BE5] via-[#B2A2EE]/20 to-transparent", // tím lavender
+  "from-[#8E5A9E] via-[#B48CC6]/20 to-transparent", // tím hồng
+  "from-[#5F8FBF] via-[#8FB3D9]/20 to-transparent", // xanh dương
+  "from-[#B68C5A] via-[#D2B48C]/20 to-transparent", // vàng nâu
+  "from-[#5E9E8C] via-[#84BDB0]/20 to-transparent", // xanh ngọc
 ];
 
-const SectionTrendding = () => {
+const SectionTopViewedMovies = () => {
   const { data } = useGetListMovie();
   const movie =
     data
-      ?.filter((item) => item?.trendding === true)
-      .sort((a, b) => b.year - a.year)
+      ?.slice()
+      ?.sort((a, b) => {
+        if (b.view !== a.view) return b.view - a.view;
+        return b.year - a.year;
+      })
       ?.slice(0, 10) || [];
   const navigate = useNavigate();
 
@@ -36,9 +39,9 @@ const SectionTrendding = () => {
 
   return (
     <>
-      <section className="text-white pt-5 lg:pt-10 pb-5 relative">
+      <section className="text-white lg:pt-5 pb-5 relative">
         <h1 className="text-xl lg:text-2xl font-semibold">
-          Top 10 phim xu hướng
+          Top 10 phim xem nhiều nhất
         </h1>
 
         <ul
@@ -60,6 +63,37 @@ const SectionTrendding = () => {
                 src={item?.poster}
                 alt=""
               />
+
+              <div
+                className={`absolute top-0 w-full h-2/3 bg-linear-to-b from-5% rounded-t-2xl ${gradients[index % gradients.length]}`}
+              ></div>
+
+              <div className="flex items-center gap-1 absolute top-2 right-5">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5
+                        c4.478 0 8.268 2.943 9.542 7
+                        -1.274 4.057-5.064 7-9.542 7
+                        -4.477 0-8.268-2.943-9.542-7z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                <p className="lg:text-sm text-[10px]">{item?.view} view</p>
+              </div>
 
               <div
                 className={`absolute bottom-0 w-full h-2/3 bg-linear-to-t from-40% rounded-b-2xl ${gradients[index % gradients.length]}`}
@@ -99,4 +133,4 @@ const SectionTrendding = () => {
   );
 };
 
-export default SectionTrendding;
+export default SectionTopViewedMovies;
