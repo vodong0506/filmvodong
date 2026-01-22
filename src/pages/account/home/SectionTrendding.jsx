@@ -25,8 +25,14 @@ const SectionTrendding = () => {
   const movie =
     data
       ?.filter((item) => item?.trendding === true)
-      .sort((a, b) => b.year - a.year)
+      ?.sort((a, b) => {
+        if (b.year !== a.year) {
+          return b.year - a.year; // năm mới trước
+        }
+        return (b.view || 0) - (a.view || 0); // cùng năm → view cao trước
+      })
       ?.slice(0, 10) || [];
+
   const navigate = useNavigate();
 
   const { listRef, scrollLeft, scrollRight } = useHorizontalScroll(1200);

@@ -28,7 +28,7 @@ const useHoverDetailCard = () => {
 
     timeoutRef.current = setTimeout(() => {
       setActiveHover({ show: true, movie: item, pos });
-    }, 700);
+    }, 500);
   };
 
   const handleMouseLeave = () => {

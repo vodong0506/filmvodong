@@ -10,8 +10,12 @@ const SectionHotMovie = () => {
   const movies =
     data
       ?.filter((item) => item?.hot === true)
-      ?.slice(0, 8)
-      .sort((a, b) => b.year - a.year) || [];
+      ?.sort((a, b) => {
+        if (b.year !== a.year) {
+          return b.year - a.year; // năm mới trước
+        }
+        return (b.view || 0) - (a.view || 0); // cùng năm → view cao trước
+      }) || [];
   const navigate = useNavigate();
 
   // Auto slide every 15 seconds

@@ -22,14 +22,7 @@ const gradients = [
 
 const SectionTopViewedMovies = () => {
   const { data } = useGetListMovie();
-  const movie =
-    data
-      ?.slice()
-      ?.sort((a, b) => {
-        if (b.view !== a.view) return b.view - a.view;
-        return b.year - a.year;
-      })
-      ?.slice(0, 10) || [];
+  const movie = data?.sort((a, b) => b?.view - a?.view)?.slice(0, 10) || [];
   const navigate = useNavigate();
 
   const { listRef, scrollLeft, scrollRight } = useHorizontalScroll(1200);
